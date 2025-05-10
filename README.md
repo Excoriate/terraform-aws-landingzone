@@ -4,23 +4,18 @@
 [![🧼 Pre-commit Hooks](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/pre-commit.yml) [![📚 Terraform Modules CI](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/tf-modules-ci.yaml/badge.svg)](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/tf-modules-ci.yaml) [![🦫 Go Code Quality Checks](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/go-linter.yaml/badge.svg)](https://github.com/Excoriate/terraform-aws-landingzone/actions/workflows/go-linter.yaml)
 ---
 
-## Terraform Registry Module Template
+## Terraform AWS Landing Zone
 
-Add the description of your module here.
+This repository contains a collection of Terraform modules that are used to create a landing zone for AWS.
 
-> [!TIP]
-> It is essential to provide a clear and comprehensive description of your module. A well-written description helps users understand the purpose and functionality of your module. For more information on how to write effective module descriptions, please refer to the [Terraform Registry documentation](https://registry.terraform.io/).
 
-### Features
+## Enabled Modules
 
-This module provides:
+| Module Name | Path | Description |
+|-------------|------|-------------|
+| OIDC Provider (CI/CD) | [modules/cicd-oidc](modules/cicd-oidc) | AWS IAM OIDC Provider for CI/CD federation |
 
-> [!TIP]
-> When describing the features of your module, focus on clarity and brevity. Highlight the key functionalities and benefits without unnecessary jargon. This helps users quickly grasp what your module offers and how it can be beneficial for their projects.
-
-- 🚀 Add feature here
-- 🚀 Add feature here
-- 🚀 Add feature here
+---
 
 ### Usage
 

@@ -315,4 +315,3 @@ variable "cloudwatch_alarm_email" {
   type        = string
   default     = null
 }
-
