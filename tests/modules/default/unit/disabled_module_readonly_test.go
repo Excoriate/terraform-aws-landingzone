@@ -5,7 +5,7 @@ package unit
 import (
 	"testing"
 
-	"github.com/Excoriate/terraform-registry-module-template/tests/pkg/helper"
+	"github.com/Excoriate/terraform-aws-landingzone/tests/pkg/helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/require"
 )

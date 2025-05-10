@@ -1,0 +1,77 @@
+---
+formatter: markdown table
+
+sections:
+  hide: []
+  show:
+    - header
+    # Example inputs are not shown as variables.tf is empty by request.
+    # Example outputs are not shown as outputs.tf is empty by request.
+    - modules # Show modules called by this example.
+    # Do not show resources directly created by the example itself (none in this case).
+    # - resources
+
+content: |-
+  # Example: AWS IAM OIDC for GitLab - Basic Setup
+
+  ## Overview
+  > **Note:** This example demonstrates a basic setup of the `landing-zone-oidc-tf` module to configure AWS IAM OpenID Connect (OIDC) for GitLab CI/CD.
+
+  ### 🔑 Key Features Demonstrated
+  - Calling the `landing-zone-oidc-tf` module.
+  - Configuring the OIDC provider URL and client ID list for GitLab (`https://gitlab.com`).
+  - Creating a sample IAM role (`gitlab-ci-basic-role`) that trusts the GitLab OIDC provider.
+  - Defining `assume_role_conditions` to restrict role assumption to a specific GitLab project path, branch type, and branch name (placeholder values used, should be updated).
+  - Attaching a managed IAM policy (`ReadOnlyAccess`) to the role for basic permissions.
+  - Using fixtures (`fixtures/default.tfvars` and `fixtures/disabled.tfvars`) to enable/disable the module deployment.
+
+  ### 📋 Usage Guidelines
+  1. **Prerequisites**: Ensure you have valid AWS credentials configured.
+  2. **Customize**:
+     - Open `examples/landing-zone-oidc-tf/basic/main.tf`.
+     - In the `module "gitlab_oidc"` block, update the `assume_role_conditions` for `gitlab.com:sub` with your actual GitLab group, project path, and branch (e.g., `project_path:your-group/your-project:ref_type:branch:ref:main`).
+  3. **Initialize**: Run `make init` or `terraform init` within the `examples/landing-zone-oidc-tf/basic/` directory.
+  4. **Plan**: Run `make plan-default` or `terraform plan -var-file=fixtures/default.tfvars`. Review the plan.
+  5. **Apply**: Run `make apply-default` or `terraform apply -var-file=fixtures/default.tfvars`.
+  6. **Verify**: Check the IAM OIDC provider and the IAM role in the AWS console or via AWS CLI.
+  7. **Cleanup**: Run `make destroy-default`.
+
+  {{ .Header }}
+
+  ## Requirements
+
+  {{ .Requirements }}
+
+  ## Providers
+
+  {{ .Providers }}
+
+  ## Modules Called
+
+  {{ .Modules }}
+
+  <!-- {{ .Resources }} -->
+  <!-- {{ .Inputs }} -->
+  <!-- {{ .Outputs }} -->
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+settings:
+  anchor: true
+  color: true
+  description: true # Although inputs/outputs are empty, keep this for general module header
+  escape: true
+  header: true
+  html: true
+  indent: 2
+  lockfile: false
+  readability: true
+  required: true # For module inputs/outputs, not example's direct ones
+  sensitive: true
+  type: true

@@ -1,0 +1,122 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+footer-from: ""
+
+sections:
+  hide: []
+  show:
+    - header
+    - inputs
+    - outputs
+    - resources
+
+content: |-
+  # Terraform AWS IAM OIDC Provider Module
+
+  ## Overview
+  > **Note:** This module provides a standardized way to configure an AWS IAM OpenID Connect (OIDC) provider and associated IAM roles. It supports creating a new OIDC provider or using an existing one, and allows for detailed configuration of IAM roles including trust policies, managed policies, and inline policies.
+
+  ### 🚀 Key Features
+  - Creates or uses an existing IAM OIDC provider.
+  - Automatically fetches OIDC provider certificate thumbprints if not provided.
+  - Configures multiple IAM roles with OIDC trust relationships.
+  - Customizable assume role conditions for fine-grained access control.
+  - Supports attaching both managed and inline IAM policies to roles.
+  - Adheres to provided Terraform style guides for structure and conventions.
+
+  ### 📖 Usage Guidelines
+  1. **Provider Configuration**: Ensure your AWS provider is configured correctly.
+  2. **OIDC Provider URL**: Specify the `oidc_provider_url` (e.g., `https://gitlab.com` or `https://token.actions.githubusercontent.com`).
+  3. **Client IDs**: Provide the `oidc_client_id_list` (audiences).
+  4. **Roles**: Define roles using the `oidc_roles` variable, specifying names, conditions, and policies.
+     - For GitLab, `assume_role_conditions` variable might look like: `"gitlab.com:sub"` for subject claim checks.
+     - For GitHub Actions, conditions typically involve `"token.actions.githubusercontent.com:sub"` and `"token.actions.githubusercontent.com:aud"`.
+  5. **Existing Provider**: If using an existing OIDC provider, set `oidc_use_existing_provider = true` and ensure `oidc_provider_url` matches the existing provider's URL.
+
+  ```hcl
+  module "oidc_config" {
+    source = "./modules/landing-zone-oidc-tf" # Or your module source
+
+    is_enabled          = true
+    oidc_provider_url   = "https://gitlab.com" # Replace with your OIDC provider URL
+    oidc_client_id_list = ["https://gitlab.com"] # Replace with your client ID(s)
+
+    oidc_roles = [
+      {
+        name        = "gitlab-ci-role-example"
+        description = "Role for GitLab CI to access AWS resources"
+        assume_role_conditions = [
+          {
+            test     = "StringEquals"
+            variable = "gitlab.com:sub" # Note: Use host from oidc_provider_url
+            values   = ["project_path:your-group/your-project:ref_type:branch:ref:main"]
+          }
+        ]
+        managed_policy_arns = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
+      }
+    ]
+
+    tags = {
+      Environment = "dev"
+      Project     = "oidc-integration"
+    }
+  }
+  ```
+
+  {{ .Header }}
+
+  ## Requirements
+
+  {{ .Requirements }}
+
+  ## Providers
+
+  {{ .Providers }}
+
+  ## Modules
+
+  {{ .Modules }}
+
+  ## Resources
+
+  {{ .Resources }}
+
+  ## Inputs
+
+  {{ .Inputs }}
+
+  ## Outputs
+
+  {{ .Outputs }}
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: required
+
+settings:
+  anchor: true
+  color: true
+  description: true
+  escape: true
+  header: true
+  html: true
+  indent: 2
+  lockfile: false # Assumes you are not using terraform-docs for lockfile generation in this context
+  readability: true
+  required: true
+  sensitive: true
+  type: true
