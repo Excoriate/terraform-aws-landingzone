@@ -1,0 +1,78 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+footer-from: ""
+
+sections:
+  hide: []
+  show:
+    - header
+    - inputs
+    - outputs
+    - resources
+
+content: |-
+  # Terraform AWS State Backend Module
+
+  ## Overview
+  > **Note:** This module provides a secure, production-ready backend for Terraform state management using S3, DynamoDB, and IAM. It supports encryption, versioning, state locking, replication, lifecycle, monitoring, and strict tagging, fully compliant with the project styleguides.
+
+  ### 🚀 Key Features
+  - Encrypted S3 bucket (SSE-S3/SSE-KMS, CMK support, encryption enforcement)
+  - S3 versioning and lifecycle management
+  - DynamoDB state locking (PAY_PER_REQUEST/provisioned, PITR, TTL, deletion protection)
+  - S3 public access block and replication (optional)
+  - IAM role/policy management (create or accept, least privilege, cross-account/region)
+  - Tagging and metadata for all resources
+  - Monitoring/alerts (S3 logging, CloudWatch metrics/alarms)
+  - Cross-account/region flexibility (arn_format, principals)
+
+  ### 📋 Usage Guidelines
+  1. Set required variables for S3, DynamoDB, and IAM as needed.
+  2. Enable/disable features via input variables (see below).
+  3. Use outputs to configure your Terraform backend and IAM access.
+
+  {{ .Header }}
+
+  ## Variables
+
+  {{ .Inputs }}
+
+  ## Outputs
+
+  {{ .Outputs }}
+
+  ## Resources
+
+  {{ .Resources }}
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: required
+
+settings:
+  anchor: true
+  color: true
+  description: true
+  escape: true
+  header: true
+  html: true
+  indent: 2
+  lockfile: false
+  readability: true
+  required: true
+  sensitive: true
+  type: true
