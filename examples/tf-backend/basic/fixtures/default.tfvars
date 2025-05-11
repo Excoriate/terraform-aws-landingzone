@@ -38,7 +38,7 @@ dynamodb_billing_mode = "PAY_PER_REQUEST"
 dynamodb_pitr_enabled = true
 
 # Enable deletion protection to prevent accidental deletion of the DynamoDB lock table.
-dynamodb_deletion_protection_enabled = true
+dynamodb_deletion_protection_enabled = false
 
 # IAM Role creation flag:
 # true -> create a new IAM role for backend access; false -> use existing IAM role ARN.
@@ -75,6 +75,6 @@ tags = {
 
 # Optional: Attach additional managed IAM policies for extended permissions.
 # iam_policy_attach_managed   = true
-# iam_managed_policy_arns     = [
-#   "arn:aws:iam::aws:policy/AmazonS3FullAccess"  # Example managed policy ARN.
-# ]
+iam_managed_policy_arns     = [
+  "arn:aws:iam::aws:policy/AmazonS3FullAccess"  # Example managed policy ARN.
+]
