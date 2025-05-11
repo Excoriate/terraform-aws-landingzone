@@ -52,6 +52,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     content {
       id     = rule.value.id
       status = rule.value.enabled ? "Enabled" : "Disabled"
+      filter {
+        prefix = ""
+      }
       dynamic "noncurrent_version_transition" {
         for_each = rule.value.noncurrent_version_transitions
         content {
