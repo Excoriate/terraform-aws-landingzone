@@ -5,7 +5,7 @@ data "aws_caller_identity" "current" {}
 
 # Call the landing-zone-oidc-tf module to set up OIDC for GitLab.
 module "main" {
-  source = "../../../modules/landing-zone-oidc"
+  source = "../../../modules/cicd-oidc"
 
   is_enabled          = var.is_enabled # Controlled by fixtures (default.tfvars, disabled.tfvars)
   oidc_provider_url   = "https://gitlab.com"

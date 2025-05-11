@@ -75,6 +75,6 @@ tags = {
 
 # Optional: Attach additional managed IAM policies for extended permissions.
 # iam_policy_attach_managed   = true
-iam_managed_policy_arns     = [
-  "arn:aws:iam::aws:policy/AmazonS3FullAccess"  # Example managed policy ARN.
+iam_managed_policy_arns = [
+  "arn:aws:iam::aws:policy/AmazonS3FullAccess" # Example managed policy ARN.
 ]
