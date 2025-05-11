@@ -14,6 +14,7 @@ This repository contains a collection of Terraform modules that are used to crea
 | Module Name | Path | Description |
 |-------------|------|-------------|
 | OIDC Provider (CI/CD) | [modules/cicd-oidc](modules/cicd-oidc) | AWS IAM OIDC Provider for CI/CD federation |
+| State Backend (S3/DynamoDB/IAM) | [modules/tf-backend](modules/tf-backend) | Secure, production-ready Terraform state backend with S3, DynamoDB, and IAM. |
 
 ---
 

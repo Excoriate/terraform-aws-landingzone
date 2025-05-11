@@ -29,32 +29,32 @@ output "is_enabled" {
 ###################################
 
 output "s3_bucket_id" {
-  value       = aws_s3_bucket.this[0].id
+  value       = try(aws_s3_bucket.this[0].id, null)
   description = "The name (ID) of the S3 bucket used for Terraform state storage."
 }
 
 output "s3_bucket_arn" {
-  value       = aws_s3_bucket.this[0].arn
+  value       = try(aws_s3_bucket.this[0].arn, null)
   description = "The ARN of the S3 bucket used for Terraform state storage."
 }
 
 output "s3_bucket_region" {
-  value       = aws_s3_bucket.this[0].region
+  value       = try(aws_s3_bucket.this[0].region, null)
   description = "The AWS region where the S3 bucket is created."
 }
 
 output "dynamodb_table_id" {
-  value       = aws_dynamodb_table.this[0].id
+  value       = try(aws_dynamodb_table.this[0].id, null)
   description = "The name (ID) of the DynamoDB table used for state locking."
 }
 
 output "dynamodb_table_arn" {
-  value       = aws_dynamodb_table.this[0].arn
+  value       = try(aws_dynamodb_table.this[0].arn, null)
   description = "The ARN of the DynamoDB table used for state locking."
 }
 
 output "iam_role_arn" {
-  value       = local.is_iam_role_create ? aws_iam_role.this[0].arn : var.iam_role_arn
+  value       = try(local.is_iam_role_create ? aws_iam_role.this[0].arn : var.iam_role_arn, null)
   description = "The ARN of the IAM role to be assumed for backend access."
 }
 

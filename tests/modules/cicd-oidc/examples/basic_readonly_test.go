@@ -1,5 +1,3 @@
-//go:build readonly && examples
-
 package examples
 
 import (
@@ -33,18 +31,15 @@ func TestCicdOidcBasicExamplePlanWhenEnabled(t *testing.T) {
 	// Execution phase - Initialize the module
 	initOutput, err := terraform.InitE(t, terraformOptions)
 	require.NoError(t, err, "Terraform init failed for cicd-oidc/basic when enabled")
-	t.Log("✅ Terraform Init Output (cicd-oidc/basic, enabled):
-", initOutput)
+	t.Logf("✅ Terraform Init Output (cicd-oidc/basic, enabled): %s", initOutput)
 
 	// Plan the module to verify configuration
 	planOutput, err := terraform.PlanE(t, terraformOptions)
 	require.NoError(t, err, "Terraform plan failed for cicd-oidc/basic when enabled")
-	t.Log("📝 Terraform Plan Output (cicd-oidc/basic, enabled):
-", planOutput)
+	t.Logf("📝 Terraform Plan Output (cicd-oidc/basic, enabled): %s", planOutput)
 
-	// Verify is_enabled output is set to true
-	require.Contains(t, planOutput, "is_enabled = true",
-		"Plan should include output is_enabled=true when module is enabled")
+	// Verify is_enabled output is set to true (robust, whitespace-insensitive, color-code-insensitive)
+	require.Regexp(t, `(?m)is_enabled\s*=\s*true`, planOutput, "Plan should include output is_enabled=true when module is enabled")
 }
 
 // TestCicdOidcBasicExampleValidate ensures that the cicd-oidc/basic example
@@ -65,14 +60,12 @@ func TestCicdOidcBasicExampleValidate(t *testing.T) {
 	// Execution phase - Initialize the module
 	initOutput, err := terraform.InitE(t, terraformOptions)
 	require.NoError(t, err, "Terraform init failed for cicd-oidc/basic validation")
-	t.Log("✅ Terraform Init Output (cicd-oidc/basic, validation):
-", initOutput)
+	t.Logf("✅ Terraform Init Output: %s", initOutput)
 
 	// Validate the module to ensure structural integrity
 	validateOutput, err := terraform.ValidateE(t, terraformOptions)
 	require.NoError(t, err, "Terraform validation failed for cicd-oidc/basic")
-	t.Log("✅ Terraform Validate Output (cicd-oidc/basic):
-", validateOutput)
+	t.Logf("✅ Terraform Validate Output: %s", validateOutput)
 }
 
 // TestCicdOidcBasicExamplePlanWhenDisabled verifies that when the cicd-oidc/basic example
@@ -93,14 +86,12 @@ func TestCicdOidcBasicExamplePlanWhenDisabled(t *testing.T) {
 	// Execution phase - Initialize the module
 	initOutput, err := terraform.InitE(t, terraformOptions)
 	require.NoError(t, err, "Terraform init failed for cicd-oidc/basic when disabled")
-	t.Log("✅ Terraform Init Output (cicd-oidc/basic, disabled):
-", initOutput)
+	t.Logf("✅ Terraform Init Output: %s", initOutput)
 
 	// Plan the module to verify no resources are planned when disabled
 	planOutput, err := terraform.PlanE(t, terraformOptions)
 	require.NoError(t, err, "Terraform plan failed for cicd-oidc/basic when disabled")
-	t.Log("📝 Terraform Plan Output (cicd-oidc/basic, disabled):
-", planOutput)
+	t.Logf("📝 Terraform Plan Output: %s", planOutput)
 
 	// Verify the plan does not contain key resource creation actions from the 'main' module
 	require.NotContains(t, planOutput, "module.main.aws_iam_oidc_provider.this",
@@ -114,7 +105,6 @@ func TestCicdOidcBasicExamplePlanWhenDisabled(t *testing.T) {
 	require.NotContains(t, planOutput, " to add", // More general check for additions
 		"Plan should not include any resource additions when module is disabled")
 
-	// Verify is_enabled output is set to false
-	require.Contains(t, planOutput, "is_enabled = false",
-		"Plan should include output is_enabled=false when module is disabled")
+	// Verify is_enabled output is set to false (robust, whitespace-insensitive, color-code-insensitive)
+	require.Regexp(t, `(?m)is_enabled\s*=\s*false`, planOutput, "Plan should include output is_enabled=false when module is disabled")
 }

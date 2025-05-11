@@ -1,0 +1,93 @@
+---
+formatter: markdown table
+
+sections:
+  hide: []
+  show:
+    - header
+    - requirements
+    - providers
+    - modules
+    - inputs
+    - outputs
+
+content: |-
+  # Example: tf-backend - Basic Usage
+
+  ## Overview
+  > **Note:** This example demonstrates a production-grade setup of the `tf-backend` module to configure a secure, robust Terraform backend using S3 and DynamoDB.
+
+  ### 🔑 Key Features Demonstrated
+  - **Encrypted S3 bucket (SSE-S3/SSE-KMS):** Ensures state file encryption at rest to protect infrastructure metadata and comply with security requirements.
+  - **Versioning:** Retains previous state versions for recovery from accidental deletions or corruptions.
+  - **Lifecycle Rules:** Archives noncurrent state versions to Glacier (90-day default) for cost-efficient long-term storage.
+  - **Public Access Block:** Prevents any public access to the S3 bucket, safeguarding sensitive state data.
+  - **Server-Access Logging (Optional):** Captures detailed access logs for auditing and compliance; store logs in a dedicated bucket.
+  - **Cross-Region Replication (Optional):** Replicates state files to a secondary region for disaster recovery and high availability.
+  - **DynamoDB State Locking:** Provides strong state locking to prevent concurrent modifications and ensure state consistency.
+  - **Point-In-Time Recovery (PITR):** Enables continuous backups of the lock table, allowing restoration to any point within the retention window.
+  - **TTL on Lock Table (Optional):** Automatically expires stale lock entries to prevent table growth and control costs.
+  - **Least-Privilege IAM Role & Policies:** Creates or uses a dedicated IAM role with minimal permissions for Terraform state operations, following security best practices.
+  - **Monitoring & Alerts (Optional):** Configures CloudWatch alarms to notify on anomalous storage or lock table metrics, improving operational visibility.
+  - **Tagging:** Applies consistent, meaningful tags (e.g., Environment, Project, Owner, ManagedBy) to all resources for governance, cost allocation, and lifecycle management.
+
+  ## Configuration Rationale
+  Each feature addresses specific production-grade requirements:
+  - **Encryption & Access Control:** Protects sensitive state data from unauthorized access or exposure.
+  - **Resilience & Recovery:** Versioning, lifecycle, replication, and PITR ensure state can be recovered quickly after failures or accidental deletions.
+  - **Operational Safety:** State locking, single-version enforcement, and deletion protection prevent concurrent writes and accidental removals.
+  - **Cost Optimization:** Lifecycle transitions to Glacier and TTL on lock entries reduce storage costs without sacrificing durability.
+  - **Observability & Compliance:** Logging, monitoring, and tagging provide audit trails, alerting, and metadata for compliance with organizational policies.
+
+  ### 📋 Usage Guidelines
+  1. **Prerequisites**: Ensure you have valid AWS credentials configured.
+  2. **Customize**: Edit `fixtures/default.tfvars` to override any variables as needed.
+  3. **Initialize**: Run `make init` or `terraform init` within the example directory.
+  4. **Plan**: Run `make plan-default` or `terraform plan -var-file=fixtures/default.tfvars`.
+  5. **Apply**: Run `make apply-default` or `terraform apply -var-file=fixtures/default.tfvars`.
+  6. **Verify**: Check the S3 bucket, DynamoDB table, and IAM role in the AWS console or via AWS CLI.
+  7. **Cleanup**: Run `make destroy-default`.
+
+  {{ .Header }}
+
+  ## Requirements
+
+  {{ .Requirements }}
+
+  ## Providers
+
+  {{ .Providers }}
+
+  ## Modules Called
+
+  {{ .Modules }}
+
+  ## Inputs
+
+  {{ .Inputs }}
+
+  ## Outputs
+
+  {{ .Outputs }}
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+settings:
+  anchor: true
+  color: true
+  description: true
+  escape: true
+  header: true
+  html: true
+  indent: 2
+  lockfile: false
+  readability: true
+  required: true
+  sensitive: true
+  type: true
